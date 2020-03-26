@@ -2,11 +2,7 @@
   <div class="budget-list-wrap">
     <ElCard :header="header">
       <template v-if="!isEmpty">
-        <div class="list-item" v-for="(item, prop) in list" :key="prop">
-          <span class="budget-comment">{{ item.comment }}</span>
-          <span class="budget-value">{{ item.value }}</span>
-          <ElButton type="danger" size="mini" @click="deleteItem(item.id)">Delete</ElButton>
-        </div>
+        <BudgetListItem :list="list"/>
       </template>
       <ElAlert v-else type="info" :title="emptyTitle" :closable="false"/>
     </ElCard>
@@ -14,8 +10,12 @@
 </template>
 
 <script>
+import BudgetListItem from '@/components/BudgetListItem';
 export default {
   name: "BudgetList",
+  components: {
+    BudgetListItem,
+  },
   props: {
     list: {
       type: Object,
@@ -29,11 +29,6 @@ export default {
   computed: {
     isEmpty() {
       return !Object.keys(this.list).length;
-    },
-  },
-  methods: {
-    deleteItem(id) {
-      this.$emit('deleteItem', id);
     },
   },
 }
