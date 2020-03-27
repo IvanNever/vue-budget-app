@@ -1,7 +1,7 @@
 <template>
   <div class="budget-list-wrap">
     <ElCard :header="header">
-      <BudgetListItem v-if="!isEmpty" :list="list"/>
+      <BudgetListItem v-if="!isEmpty" :list="list" @deleteItem="SetDeleteItem"/>
       <ElAlert v-else type="info" :title="emptyTitle" :closable="false"/>
     </ElCard>
   </div>
@@ -30,7 +30,7 @@ export default {
     },
   },
   methods: {
-    deleteItem(id) {
+    SetDeleteItem(id) {
       this.$emit('deleteItem', id);
     },
   },
