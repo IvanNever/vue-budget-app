@@ -1,13 +1,27 @@
 <template>
-  <div class="total-value">Balance: {{ total }}</div>
+  <div class="total-value" :style="{'color': BalanceColor }">Balance: {{ total }}</div>
 </template>
 
 <script>
 export default {
   name: 'TotalBalance',
   props: {
-    total: Number,
-    default: 0,
+    total: {
+      type: Number,
+      default: 0,
+      },
+  },
+
+  computed: {
+    BalanceColor() {
+      if (this.total === 0) {
+        return "black";
+      } else if (this.total > 0) {
+        return "green";
+      } else {
+        return "red";
+      }
+    },
   },
 }
 </script>
