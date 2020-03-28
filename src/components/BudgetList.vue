@@ -2,12 +2,12 @@
   <div class="budget-list-wrap">
     <ElCard :header="header">
       <div class="filter-buttons">
-        <el-button type="success">Income</el-button>
-        <el-button type="danger">Outcome</el-button>
-        <el-button type="primary">All items</el-button>
+        <el-button type="success" @click="filterItem('INCOME')">Income</el-button>
+        <el-button type="danger" @click="filterItem('OUTCOME')">Outcome</el-button>
+        <el-button type="primary" @click="filterItem('ALL')">All items</el-button>
       </div>
       <template v-if="!isEmpty">
-        <div v-for="(item, prop) in list" :key="prop">
+        <div v-for="(item, prop) in filterItem(filter)" :key="prop">
           <BudgetListItem  :item="item" @deleteItem="SetDeleteItem"/>
         </div>
       </template>
@@ -32,6 +32,7 @@ export default {
   data: () => ({
     header: "Budget List",
     emptyTitle: "Empty List",
+    filter: "OUTCOME",
   }),
   computed: {
     isEmpty() {
@@ -42,6 +43,16 @@ export default {
     SetDeleteItem(id) {
       this.$emit('deleteItem', id);
     },
+    filterItem(value) {
+      this.filter = value;
+      if (value === 'ALL') return this.list;
+      const filteredList = Object.entries(this.list).filter(([,val]) => val.type === value);
+      return filteredList.reduce((acc, item) => {
+        acc[item[0]] = item[1];
+        return acc;
+      }, {});
+    },
+
   },
 }
 </script>
