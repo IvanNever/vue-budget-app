@@ -1,7 +1,16 @@
 <template>
   <div class="budget-list-wrap">
     <ElCard :header="header">
-      <BudgetListItem v-if="!isEmpty" :list="list" @deleteItem="SetDeleteItem"/>
+      <div class="filter-buttons">
+        <el-button type="success">Income</el-button>
+        <el-button type="danger">Outcome</el-button>
+        <el-button type="primary">All items</el-button>
+      </div>
+      <template v-if="!isEmpty">
+        <div v-for="(item, prop) in list" :key="prop">
+          <BudgetListItem  :item="item" @deleteItem="SetDeleteItem"/>
+        </div>
+      </template>
       <ElAlert v-else type="info" :title="emptyTitle" :closable="false"/>
     </ElCard>
   </div>
@@ -51,5 +60,10 @@ export default {
   font-weight: bold;
   margin-left: auto;
   padding-right: 20px;
+}
+.filter-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
 }
 </style>
