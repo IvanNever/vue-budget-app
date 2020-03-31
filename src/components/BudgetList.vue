@@ -8,7 +8,7 @@
       </div>
       <template v-if="!isEmpty">
         <div v-for="(item, prop) in filterItem(filter)" :key="prop">
-          <BudgetListItem  :item="item" @deleteItem="SetDeleteItem"/>
+          <BudgetListItem  :item="item"/>
         </div>
       </template>
       <ElAlert v-else type="info" :title="emptyTitle" :closable="false"/>
@@ -39,9 +39,7 @@ export default {
     },
   },
   methods: {
-    SetDeleteItem(id) {
-      this.$emit('deleteItem', id);
-    },
+
     filterItem(value) {
       this.filter = value;
       if (value === 'ALL') return this.budgetList;

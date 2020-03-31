@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 const budgetStore = {
   namespaced: true,
   state: {
@@ -19,8 +21,16 @@ const budgetStore = {
   getters: {
     budgetList: ({ list }) => Object.values(list)
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    DELETE_ITEM(state, id) {
+      Vue.delete(state.list, id);
+    }
+  },
+  actions: {
+    onDeleteItem({ commit }, id) {
+      commit("DELETE_ITEM", id);
+    },
+  },
 };
 
 export default budgetStore;
