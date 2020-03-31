@@ -6,7 +6,6 @@
         <el-button type="danger" @click="filterItem('OUTCOME')">Outcome</el-button>
         <el-button type="primary" @click="filterItem('ALL')">All items</el-button>
       </div>
-      <div>{{ budgetList }}</div>
       <template v-if="!isEmpty">
         <div v-for="(item, prop) in filterItem(filter)" :key="prop">
           <BudgetListItem  :item="item" @deleteItem="SetDeleteItem"/>
@@ -26,12 +25,6 @@ export default {
   components: {
     BudgetListItem,
   },
-  props: {
-    list: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   data: () => ({
     header: "Budget List",
     emptyTitle: "Empty List",
@@ -42,7 +35,7 @@ export default {
     ...mapGetters("dataList", ["budgetList"]),
 
     isEmpty() {
-      return !Object.keys(this.list).length;
+      return !Object.keys(this.budgetList).length;
     },
   },
   methods: {
@@ -51,8 +44,8 @@ export default {
     },
     filterItem(value) {
       this.filter = value;
-      if (value === 'ALL') return this.list;
-      const filteredList = Object.entries(this.list).filter(([,val]) => val.type === value);
+      if (value === 'ALL') return this.budgetList;
+      const filteredList = Object.entries(this.budgetList).filter(([,val]) => val.type === value);
       return filteredList.reduce((acc, item) => {
         acc[item[0]] = item[1];
         return acc;
