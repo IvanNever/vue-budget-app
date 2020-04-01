@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: 'Form',
   data() {
@@ -45,13 +47,15 @@ export default {
     };
   },
   methods: {
+    ...mapActions('dataList', ['onFormSubmit']),
+
     onSubmit() {
       this.$refs.addItemForm.validate((valid) => {
         if (valid) {
           if (this.formData.type === 'OUTCOME' && this.formData.value > 0) {
             this.formData.value *= -1;
           }
-          this.$emit('submitForm', {...this.formData });
+          this.onFormSubmit({...this.formData});
           this.$refs.addItemForm.resetFields();
         }
       });

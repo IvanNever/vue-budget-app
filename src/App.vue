@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Form @submitForm="onFormSubmit"/>
-    <TotalBalance :total="totalBalance"/>
-    <BudgetList :list="list" @deleteItem="onDeleteItem"/>
+    <Form/>
+    <TotalBalance/>
+    <BudgetList />
   </div>
 </template>
 
@@ -17,43 +17,6 @@ export default {
     BudgetList,
     TotalBalance,
     Form,
-  },
-  data: () => ({
-    list: {
-      1: {
-        type: 'INCOME',
-        value: 100,
-        comment: 'Some comment',
-        id: 1,
-      },
-      2: {
-        type: 'OUTCOME',
-        value: -50,
-        comment: 'Some outcome comment',
-        id: 2,
-      },
-    },
-  }),
-  computed: {
-    totalBalance() {
-      return Object.values(this.list).reduce((acc, item) => acc + item.value, 0);
-    },
-  },
-  methods: {
-    onDeleteItem(id) {
-      const confirmDelete = confirm ('Are you sure?');
-      if (confirmDelete) {
-        return this.$delete(this.list, id);
-      } else { return }
-    },
-    onFormSubmit(data) {
-      const newObj = {
-        ...data,
-        id: String(Math.random()),
-      };
-
-      this.$set(this.list, newObj.id, newObj);
-    },
   },
 }
 </script>

@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "BudgetListItem",
   props: {
@@ -19,8 +21,13 @@ export default {
     },
   },
   methods: {
+    ...mapActions('dataList', ['onDeleteItem']),
     deleteItem(id) {
-      this.$emit('deleteItem', id);
+      const confirmDelete = confirm ('Are you sure?');
+      if (confirmDelete) {
+        this.onDeleteItem(id);
+      } else { return }
+
     },
   },
 }

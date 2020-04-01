@@ -8,7 +8,7 @@
       </div>
       <template v-if="!isEmpty">
         <div v-for="(item, prop) in filterItem(filter)" :key="prop">
-          <BudgetListItem  :item="item" @deleteItem="SetDeleteItem"/>
+          <BudgetListItem  :item="item"/>
         </div>
       </template>
       <ElAlert v-else type="info" :title="emptyTitle" :closable="false"/>
@@ -17,17 +17,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import BudgetListItem from '@/components/BudgetListItem';
 export default {
   name: "BudgetList",
   components: {
     BudgetListItem,
-  },
-  props: {
-    list: {
-      type: Object,
-      default: () => ({}),
-    },
   },
   data: () => ({
     header: "Budget List",
@@ -35,18 +31,19 @@ export default {
     filter: "ALL",
   }),
   computed: {
+
+    ...mapGetters("dataList", ["budgetList"]),
+
     isEmpty() {
-      return !Object.keys(this.list).length;
+      return !Object.keys(this.budgetList).length;
     },
   },
   methods: {
-    SetDeleteItem(id) {
-      this.$emit('deleteItem', id);
-    },
+
     filterItem(value) {
       this.filter = value;
-      if (value === 'ALL') return this.list;
-      const filteredList = Object.entries(this.list).filter(([,val]) => val.type === value);
+      if (value === 'ALL') return this.budgetList;
+      const filteredList = Object.entries(this.budgetList).filter(([,val]) => val.type === value);
       return filteredList.reduce((acc, item) => {
         acc[item[0]] = item[1];
         return acc;
