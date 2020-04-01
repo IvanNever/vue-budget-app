@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Form @submitForm="onFormSubmit"/>
+    <Form/>
     <TotalBalance/>
     <BudgetList />
   </div>
@@ -17,18 +17,6 @@ export default {
     BudgetList,
     TotalBalance,
     Form,
-  },
-  data: () => ({}),
-
-  methods: {
-    onFormSubmit(data) {
-      const newObj = {
-        ...data,
-        id: String(Math.random()),
-      };
-
-      this.$set(this.list, newObj.id, newObj);
-    },
   },
 }
 </script>
